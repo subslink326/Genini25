@@ -149,8 +149,21 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
     """
     Executes the analysis workflow, including conditional deep dive and generation steps.
     """
+    PLACEHOLDER_URL = "http://placeholder.job/url" # Define your placeholder
+
     print(f"--- Starting Analysis for: {job_url} ---")
-    print(f"--- Using Model: {model_name} via OpenRouter ---") # Updated print statement
+
+    # <<< START MODIFICATION >>>
+    # Check if the provided URL is the placeholder
+    if job_url == PLACEHOLDER_URL:
+        print(f"--- Detected Placeholder URL. Skipping analysis. ---")
+        print("--- Provide a valid job posting URL to run the analysis. ---")
+        # You might return a specific message or None, depending on how Replit handles the output
+        return "Placeholder detected, analysis skipped."
+    # <<< END MODIFICATION >>>
+
+    # --- Original code continues below ---
+    print(f"--- Using Model: {model_name} via OpenRouter ---")
     print(f"--- Analyzing against candidate: {candidate_profile.get('personalInfo', {}).get('name', 'N/A')} ---")
 
     scraped_text = scrape_job_posting_text(job_url)
@@ -162,7 +175,7 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
 
     step_results_text = {} # Store raw text output of each step
     full_report = f"--- Analysis Report for Job Posting: {job_url} ---\n\n"
-    full_report += f"--- Model Used: {model_name} via OpenRouter ---\n" # Updated print statement
+    full_report += f"--- Model Used: {model_name} via OpenRouter ---\n"
     full_report += f"--- Analyzing Against Candidate: {candidate_profile.get('personalInfo', {}).get('name', 'N/A')} ---\n\n"
 
     # --- Define Core Analysis Prompts (Steps 1-5) ---
@@ -391,7 +404,7 @@ if __name__ == "__main__":
 
     # Prompt user for the URL interactively
     while True:
-        target_job_url = input("Please enter the full URL of the job posting: ").strip()
+        target_job_url = input("Please enter the full URL of the job posting (or the placeholder URL): ").strip()
         if target_job_url:
             break
         else:
@@ -401,16 +414,21 @@ if __name__ == "__main__":
     final_report = analyze_job_application(target_job_url, candidate_data)
 
     # --- Output the Final Report ---
-    print("\n\n======== FINAL COMPREHENSIVE REPORT ========")
-    print(final_report)
+    # Check if the report is just the placeholder message before printing the full header
+    if final_report != "Placeholder detected, analysis skipped.":
+        print("\n\n======== FINAL COMPREHENSIVE REPORT ========")
+        print(final_report)
 
-    # Optional: Save the report
-    report_filename = "job_analysis_report_interactive_deepdive.md" # Updated filename
-    try:
-        with open(report_filename, "w", encoding="utf-8") as f:
-            f.write(final_report)
-        print(f"\nReport saved to {report_filename}")
-    except Exception as e:
-        print(f"\nError saving report to file: {e}")
+        # Optional: Save the report
+        report_filename = "job_analysis_report_interactive_deepdive.md" # Updated filename
+        try:
+            with open(report_filename, "w", encoding="utf-8") as f:
+                f.write(final_report)
+            print(f"\nReport saved to {report_filename}")
+        except Exception as e:
+            print(f"\nError saving report to file: {e}")
+    else:
+        # If it was the placeholder, the messages were already printed within the function
+        pass
 
 # ** END OF FILE **
