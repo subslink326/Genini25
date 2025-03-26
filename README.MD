@@ -1,17 +1,18 @@
-# Job Posting Analyzer (via OpenRouter)
+# Personalized Job Posting Analyzer (via OpenRouter)
 
-This Python script automates the analysis of online job postings using Large Language Models (LLMs) accessed via the OpenRouter.ai API. It takes a job posting URL as a command-line argument, performs a multi-step analysis based on the job description, vets the company and industry context, and generates a comprehensive report summarizing its findings.
+This Python script automates the analysis of online job postings against **your specific professional profile**, using Large Language Models (LLMs) accessed via the OpenRouter.ai API. It takes a job posting URL as a command-line argument, reads your profile from `candidate_profile.json`, performs a multi-step analysis comparing your profile to the job description, vets the company/industry, and generates a comprehensive, personalized report.
 
 ## Features
 
+*   **Personalized Analysis:** Compares job requirements directly against your skills, experience, and accomplishments stored in `candidate_profile.json`.
 *   **Command-Line Interface:** Accepts the target job posting URL directly as a command-line argument.
+*   **External Profile Data:** Reads your detailed professional profile from a separate `candidate_profile.json` file for easy updates and maintenance.
 *   **Web Scraping (Best-Effort):** Attempts to scrape text content directly from the provided job posting URL.
-*   **Job Description Analysis:** Extracts key responsibilities, required/preferred qualifications, and essential keywords/skills.
-*   **Hypothetical Candidate Mapping:** Simulates how a strong, hypothetical candidate might align with the role's requirements, experience, achievements, and culture.
-*   **Ideal Profile Definition:** Describes the employer's likely ideal candidate profile based on the posting.
-*   **Candidate Positioning:** Crafts a sample professional summary for the hypothetical candidate.
+*   **Job Description Analysis:** Extracts key responsibilities, required/preferred qualifications, and essential keywords/skills from the posting.
+*   **Candidate Data Mapping:** Compares your profile (skills, experience, achievements) against the extracted job requirements, identifying strengths and potential gaps.
+*   **Personalized Positioning:** Crafts a sample professional summary tailored for you and the specific job.
 *   **Company & Industry Vetting:** Performs external research (via LLM capabilities) on the company's business, reputation, culture, industry position, competitors, and trends.
-*   **Synthesis & Fit Assessment:** Provides an overall assessment of the hypothetical candidate's fit and unique value proposition.
+*   **Synthesis & Fit Assessment:** Provides an overall assessment of *your* fit for the role and your unique value proposition.
 *   **Model Agnostic (via OpenRouter):** Configurable to use various LLMs available through OpenRouter (e.g., Gemini, GPT models, Mistral, etc.).
 *   **Formatted Output:** Generates a structured report printed to the console and optionally saved to a Markdown file.
 
@@ -22,11 +23,8 @@ This Python script automates the analysis of online job postings using Large Lan
 
 ## Installation
 
-1.  **Clone the repository (or download the script):**
-    ```bash
-    # git clone <repository_url> # If applicable
-    # cd <repository_directory>
-    ```
+1.  **Clone the repository (or download files):**
+    Place `job_analyzer_cli.py` and create `candidate_profile.json` (see step 3 below) in the same directory.
 2.  **Install dependencies:**
     Create a file named `requirements.txt` with the following content:
     ```text
@@ -38,43 +36,29 @@ This Python script automates the analysis of online job postings using Large Lan
     ```bash
     pip install -r requirements.txt
     ```
+3.  **Create and Populate `candidate_profile.json`:**
+    *   Create a file named `candidate_profile.json` in the same directory as `job_analyzer_cli.py`.
+    *   **Paste your complete professional profile data into this file, ensuring it follows the correct JSON format.** Use the structure provided in the previous interaction (or adapt it carefully) as a template. This file is crucial for the personalized analysis.
 
 ## Configuration
 
-1.  **API Key:** This script requires your OpenRouter API key. **Do not hardcode your API key directly into the script.** Set it as an environment variable named `OPENROUTER_API_KEY`.
+1.  **API Key:** Set your OpenRouter API key as an environment variable named `OPENROUTER_API_KEY`. **Do not hardcode it.**
+    *   **Linux/macOS:** `export OPENROUTER_API_KEY='your_key_here'` (Add to `.bashrc`/`.zshrc` for persistence)
+    *   **Windows (CMD):** `set OPENROUTER_API_KEY=your_key_here` (Temporary)
+    *   **Windows (PowerShell):** `$env:OPENROUTER_API_KEY='your_key_here'` (Temporary)
+    *(Use System Properties -> Environment Variables for persistence on Windows)*
 
-    *   **Linux/macOS:**
-        ```bash
-        export OPENROUTER_API_KEY='your_openrouter_api_key_here'
-        ```
-        *(Add this line to your `.bashrc`, `.zshrc`, or shell profile file for persistence)*
+2.  **Candidate Data (`candidate_profile.json`):** Ensure this file exists in the same directory as the script and contains your accurate, up-to-date professional information in valid JSON format. **This is where you manage your profile data.**
 
-    *   **Windows (Command Prompt):**
-        ```bash
-        set OPENROUTER_API_KEY=your_openrouter_api_key_here
-        ```
-        *(This is usually temporary for the current session)*
+3.  **Model Selection (Optional):**
+    Inside `job_analyzer_cli.py`, you can change the `model_name` variable to specify a different model available on OpenRouter.
 
-    *   **Windows (PowerShell):**
-        ```bash
-        $env:OPENROUTER_API_KEY='your_openrouter_api_key_here'
-        ```
-        *(This is usually temporary for the current session)*
-
-        *(For persistent environment variables on Windows, use the System Properties dialog -> Environment Variables)*
-
-2.  **Model Selection (Optional):**
-    Inside the script (`job_analyzer_cli.py`), you can change the `model_name` variable to specify which model available on OpenRouter you wish to use (e.g., `"google/gemini-pro"`, `"openai/gpt-4o"`, `"mistralai/mistral-large-latest"`). Check OpenRouter documentation for available model identifiers.
-
-3.  **OpenRouter Ranking Headers (Optional):**
-    If you want your API calls attributed to your application on the OpenRouter leaderboard, set the following environment variables:
-    *   `YOUR_SITE_URL`: e.g., `https://myjobanalyzer.com`
-    *   `YOUR_SITE_NAME`: e.g., `My Job Analyzer`
-    The script will automatically include these as `HTTP-Referer` and `X-Title` headers if the environment variables are set.
+4.  **OpenRouter Ranking Headers (Optional):**
+    Set `YOUR_SITE_URL` and `YOUR_SITE_NAME` environment variables if desired for OpenRouter leaderboard attribution.
 
 ## Usage
 
-Run the script from your terminal, providing the full URL of the job posting as a command-line argument. **Remember to enclose the URL in quotes if it contains special characters like `&` or `?`.**
+Run the script from your terminal, providing the full URL of the job posting as a command-line argument. **Remember to enclose the URL in quotes if it contains special characters.**
 
 ```bash
 python job_analyzer_cli.py "<job_posting_url_here>"
@@ -83,25 +67,25 @@ python job_analyzer_cli.py "<job_posting_url_here>"
 **Example:**
 
 ```bash
-python job_analyzer_cli.py "https://www.dialpad.com/careers/jobs/apply/executive-assistant,-marketing/austin-us"
+python job_analyzer_cli.py "https://www.somecompany.com/careers/job/12345"
 ```
 
 **Output:**
 
-The script will print progress for each analysis step to the console. The final comprehensive report will be printed at the end. By default, the report is also saved to a file named `job_analysis_report_cli.md` in the same directory where the script is run.
+The script will print progress and token usage (optional) for each analysis step. The final personalized report comparing your profile to the job will be printed to the console and saved to `job_analysis_report_personalized.md`.
 
 ## Important Notes & Limitations
 
-*   **Web Scraping Fragility:** The initial web scraping step is best-effort and may fail on websites that load content dynamically with JavaScript or have complex/non-standard HTML structures. The script attempts common selectors but cannot guarantee success. If scraping fails, the analysis relies heavily on the LLM's ability to access the URL directly.
-*   **Model Capabilities:** The quality and success of the analysis, especially accessing live URLs (Step 1) and external research (Step 4), depend heavily on the capabilities of the specific LLM selected via `model_name`. Choose models known for tool use or web browsing (like `google/gemini-1.5-pro-latest` or `openai/gpt-4o`) for best results in these areas.
-*   **API Costs:** Using the OpenRouter API incurs costs based on the chosen model and the number of tokens processed (input + output). Monitor your usage and costs on the OpenRouter platform. The script includes optional token usage printing for each step.
-*   **Output Variability:** LLM outputs can vary even with the same prompt. Rerunning the script might yield slightly different results.
-*   **Hypothetical Candidate:** The analysis related to the "hypothetical candidate" is purely based on inferring a strong match from the job description. It does not reflect any real individual's profile.
+*   **Maintain `candidate_profile.json`:** Keep this file accurate and up-to-date for meaningful analysis results. Ensure it remains valid JSON.
+*   **Web Scraping Fragility:** Scraping may fail on dynamic sites. Analysis quality depends on LLM's ability to access the URL directly if scraping fails.
+*   **Model Capabilities:** The quality of URL access (Step 1) and external research (Step 4) depends on the chosen LLM.
+*   **API Costs:** Monitor your OpenRouter usage and costs.
+*   **Output Variability:** LLM outputs can differ slightly between runs.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues or pull requests.
+Contributions are welcome via issues or pull requests.
 
 ## License
 
-This project is likely under the MIT License (or specify your chosen license).
+(Specify your license, e.g., MIT License)
