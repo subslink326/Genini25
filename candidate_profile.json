@@ -1,0 +1,114 @@
+{
+  "personalInfo": {
+    "name": "Louis Sergiacomi",
+    "title": "Sales Professional",
+    "location": "Fountain Hills, AZ, USA",
+    "contact": {
+      "email": "lou.2191@icloud.com",
+      "website": "loutech.solutions",
+      "linkedin": "linkedin.com/in/louduko"
+    }
+  },
+  "summary": "Dynamic Sales Professional with over 7 years of success in B2B sales, account management, solution selling, and customer service. Proven ability in upselling, cross-selling, and technical support. Passionate about leveraging AI and technology to drive sales, enhance customer engagement, and deliver customer-driven solutions combining sales acumen with a tech-savvy approach.",
+  "skills": [
+    "B2B Sales & Account Management",
+    "Consultative Selling & Relationship Building",
+    "Cross-selling, Upselling & Revenue Growth",
+    "Sales Process Optimization & Performance Metrics",
+    "Salesforce CRM & Al-Powered Sales Tools",
+    "Data Analysis, Forecasting & Prompt Engineering"
+  ],
+  "workExperience": [
+    {
+      "title": "Account Executive",
+      "company": "GoDaddy",
+      "location": "Gilbert, Arizona",
+      "dates": "09/2020 - 11/2021",
+      "description": [
+        "Drove B2B revenue growth through consultative upselling and cross-selling of technology products to upgrade client performance.",
+        "Provided high-quality inbound technical support, utilizing internal tools (potentially AI-powered) for proactive customer engagement and problem-solving.",
+        "Effectively cross-sold GoDaddy services to the existing client base.",
+        "Led team in highest dollar value of premium domain sales, demonstrating strong closing skills."
+      ]
+    },
+    {
+      "title": "Account Executive",
+      "company": "Yelp",
+      "location": null,
+      "dates": "03/2019 - 03/2020",
+      "description": [
+        "Managed full-cycle B2B advertising sales; personally set up ad campaigns and CTAs for SMB clients, tailoring strategies to specific needs, optimizing performance, and increasing client retention.",
+        "Surpassed lifetime quota revenue by 105% through strategic planning, disciplined pipeline management, and identifying optimal touchpoints using industry trends and data.",
+        "Achieved recognition as a top team performer in 4 separate months by exceeding KPIs: 80+ daily calls, 2+ pitches per day, and maintained 2 hours of talk time.",
+        "Consistently exceeded monthly revenue targets, maintaining an average close rate near 40% on pitched accounts by utilizing strategic qualification questions and objection-handling techniques; achieved 159% (Sep '19), 156% (Oct '19), and 166% (Jan '20) of quota."
+      ]
+    },
+    {
+      "title": "Independent Sales Representative",
+      "company": "Bimbo Bakeries Sara Lee",
+      "location": "Tempe, Arizona",
+      "dates": "03/2016 - 08/2018",
+      "description": [
+        "Managed product supply using data forecasting tools for efficient inventory management, achieving a 10% increase in inventory accuracy and reducing waste.",
+        "Consistently met sales and shrink goals, reducing waste by 7% through strategic inventory management.",
+        "Implemented task-optimization strategies reducing labor costs by 20% and improving overall productivity.",
+        "Oversaw daily delivery logistics, product merchandising, and forecasted sales a week in advance."
+      ]
+    },
+    {
+      "title": "Independent Sales Representative",
+      "company": "Snyder's Lance",
+      "location": "Mesa, Arizona",
+      "dates": "04/2014 - 03/2016",
+      "description": [
+        "Increased yearly territory sales by over 18% through data-driven market analysis and targeted growth strategies.",
+        "Expanded total account base by 10% by identifying and pursuing new business opportunities.",
+        "Managed ordering, delivery, and merchandising processes, improving product availability.",
+        "Successfully executed all weekly product thresholds, maintaining consistent product availability and customer satisfaction."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Al Sales Ninja",
+      "dates": "05/2024 - Present",
+      "description": "Development of AI-powered sales assistant tool concept.",
+      "details": [
+        "DEMO"
+      ]
+    },
+    {
+      "name": "Al for Candidates",
+      "dates": "06/2024 - Present",
+      "description": "LLM wrapper proof-of-concept for candidate assessment.",
+      "details": [
+        "LLM Wrapper"
+      ]
+    }
+  ],
+  "interests": [
+    "Keen interest in Al and emerging technologies",
+    "Application of Al in Sales",
+    "Sales process optimization",
+    "Data-driven decision making"
+  ],
+  "references": [
+    {
+      "name": "Vanessa Stanley",
+      "title": "Sales Manager Yelp",
+      "contact": {
+        "email": "Vanessa.stanley4@gmail.com",
+        "phone": "480-246-2253"
+      }
+    },
+    {
+      "name": "Scott Lester",
+      "title": "Sales Manager Godaddy",
+      "contact": {
+        "phone": "641-330-3200",
+        "email": null
+      }
+    }
+  ],
+  "documentDate": "June, 13 2024"
+}
