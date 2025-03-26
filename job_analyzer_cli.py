@@ -34,7 +34,8 @@ if x_title: extra_headers["X-Title"] = x_title
 # --- Choose the model ---
 # Use OpenRouter's naming. Examples:
 # model_name = "google/gemini-1.5-pro-latest" # Good for URL fetching, might be slower/costlier
-model_name = "google/gemini-pro"             # Reliable text model
+# model_name = "google/gemini-pro"             # Reliable text model
+model_name = "google/gemini-2.5-pro-exp-03-25" # <<< UPDATED MODEL
 # model_name = "openai/gpt-4o"                 # Alternative powerful model
 # model_name = "mistralai/mistral-large-latest" # Another alternative
 # Choose the one that best suits your needs and budget on OpenRouter.
@@ -115,11 +116,9 @@ def call_llm(step_name, prompt_text):
     """Handles the API call to OpenRouter and basic response processing."""
     print(f"\n--- Executing {step_name} ---")
     try:
-        # Optionally switch models for research steps
+        # Use the globally defined model name directly
         current_model = model_name
-        if "Research" in step_name or "Vet" in step_name:
-             # current_model = "google/gemini-1.5-pro-latest" # Example switch
-             pass # Keep same model for now, but this is where you could switch
+        # <<< REMOVED CONDITIONAL MODEL SWITCHING BLOCK >>>
 
         completion = client.chat.completions.create(
             model=current_model,
@@ -151,7 +150,7 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
     Executes the analysis workflow, including conditional deep dive and generation steps.
     """
     print(f"--- Starting Analysis for: {job_url} ---")
-    print(f"--- Using Primary Model: {model_name} via OpenRouter ---")
+    print(f"--- Using Model: {model_name} via OpenRouter ---") # Updated print statement
     print(f"--- Analyzing against candidate: {candidate_profile.get('personalInfo', {}).get('name', 'N/A')} ---")
 
     scraped_text = scrape_job_posting_text(job_url)
@@ -163,7 +162,7 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
 
     step_results_text = {} # Store raw text output of each step
     full_report = f"--- Analysis Report for Job Posting: {job_url} ---\n\n"
-    full_report += f"--- Model Used: {model_name} (May vary for research) via OpenRouter ---\n"
+    full_report += f"--- Model Used: {model_name} via OpenRouter ---\n" # Updated print statement
     full_report += f"--- Analyzing Against Candidate: {candidate_profile.get('personalInfo', {}).get('name', 'N/A')} ---\n\n"
 
     # --- Define Core Analysis Prompts (Steps 1-5) ---
@@ -179,10 +178,10 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
     2.  If URL access fails or is not possible, rely on the provided scraped text.
     3.  If both URL access fails and no usable text is provided, state clearly that you cannot perform the analysis.
     4.  If successful, extract and summarize:
-        *   Key responsibilities.
-        *   Required qualifications ("must-haves").
-        *   Preferred qualifications ("nice-to-haves").
-        *   Essential keywords and skills mentioned in the posting.
+        * Key responsibilities.
+        * Required qualifications ("must-haves").
+        * Preferred qualifications ("nice-to-haves").
+        * Essential keywords and skills mentioned in the posting.
 
     **Context:**
     {job_context}
@@ -202,10 +201,10 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
     ```
 
     **Perform the following comparisons:**
-    *   **Qualification & Skill Mapping:** Compare the candidate's skills (technical, core, soft) and education against the required and preferred qualifications from the job posting. Identify key strengths (strong matches) and potential gaps.
-    *   **Experience Mapping:** Evaluate how the candidate's listed work experience (roles, responsibilities) demonstrates the key responsibilities and required qualifications mentioned in the job posting. Provide specific examples from the candidate's experience where possible.
-    *   **Achievement Mapping:** Select the candidate's accomplishments (from their profile) that are MOST relevant and impactful for THIS specific job posting's responsibilities and requirements.
-    *   **Soft Skill & Cultural Fit Assessment (Preliminary):** Based on the candidate's listed soft skills and general professional summary, assess potential alignment with the soft skills likely needed for the role (based on Task 1) and any cultural hints inferable from the job posting/company type. Note alignment points.
+    * **Qualification & Skill Mapping:** Compare the candidate's skills (technical, core, soft) and education against the required and preferred qualifications from the job posting. Identify key strengths (strong matches) and potential gaps.
+    * **Experience Mapping:** Evaluate how the candidate's listed work experience (roles, responsibilities) demonstrates the key responsibilities and required qualifications mentioned in the job posting. Provide specific examples from the candidate's experience where possible.
+    * **Achievement Mapping:** Select the candidate's accomplishments (from their profile) that are MOST relevant and impactful for THIS specific job posting's responsibilities and requirements.
+    * **Soft Skill & Cultural Fit Assessment (Preliminary):** Based on the candidate's listed soft skills and general professional summary, assess potential alignment with the soft skills likely needed for the role (based on Task 1) and any cultural hints inferable from the job posting/company type. Note alignment points.
 
     Present the output clearly under headings for each mapping/assessment type (e.g., Qualification/Skill Analysis, Experience Relevance, Relevant Achievements, Soft Skill/Culture Alignment). Be objective in identifying both strengths and potential gaps.
     """
@@ -223,11 +222,11 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
     prompt_step4 = f"""
     **Task 4: Initial Company Vetting**
 
-    Perform **brief** research on the company associated with the job posting URL ({job_url}). Use your web browsing capabilities if available. If the company cannot be reliably determined, state that. Summarize concisely covering:
-    *   Company Overview (Business, Main Products/Services)
-    *   General Reputation / Recent Highlight (e.g., major funding, award, notable product launch)
-    *   Industry & Main Competitors
-    *   Potential Red Flags (briefly, if any obvious ones surface)
+    Perform **brief** research on the company associated with the job posting URL ({job_url}). Use your web Browse capabilities if available. If the company cannot be reliably determined, state that. Summarize concisely covering:
+    * Company Overview (Business, Main Products/Services)
+    * General Reputation / Recent Highlight (e.g., major funding, award, notable product launch)
+    * Industry & Main Competitors
+    * Potential Red Flags (briefly, if any obvious ones surface)
 
     This is intended as a preliminary check only. Present findings clearly.
     """
@@ -285,7 +284,7 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
         prompt_step5_5 = f"""
         **Task 5.5: Deep Dive Company Research**
 
-        Perform a **comprehensive deep dive research analysis** on the company associated with the job posting URL ({job_url}). Utilize your web browsing capabilities extensively. If the company cannot be reliably determined, state that. Structure the report clearly with the following sections:
+        Perform a **comprehensive deep dive research analysis** on the company associated with the job posting URL ({job_url}). Utilize your web Browse capabilities extensively. If the company cannot be reliably determined, state that. Structure the report clearly with the following sections:
 
         1.  **Company Overview:** Full name, headquarters, year founded, brief mission statement.
         2.  **History & Founding Story:** Key milestones, founders (if notable), evolution over time.
@@ -367,8 +366,8 @@ def analyze_job_application(job_url: str, candidate_profile: dict):
         1.  **Address:** Include placeholders for recipient name/title/company address if possible, otherwise use generic greetings. Mention the specific job title being applied for.
         2.  **Introduction:** Start with a strong opening referencing the job posting and briefly state the candidate's core value proposition (drawing from the personalized positioning statement).
         3.  **Body Paragraphs (2-3):**
-            *   Connect the candidate's key skills and experiences (provide 2-3 specific examples from their profile) directly to the most critical requirements mentioned in the job posting analysis. Use keywords naturally.
-            *   Subtly weave in 1-2 relevant insights from the **deep dive company research** to demonstrate genuine interest and alignment (e.g., connect skills to a company value, mention excitement about a recent product launch or company direction). Avoid just listing facts.
+            * Connect the candidate's key skills and experiences (provide 2-3 specific examples from their profile) directly to the most critical requirements mentioned in the job posting analysis. Use keywords naturally.
+            * Subtly weave in 1-2 relevant insights from the **deep dive company research** to demonstrate genuine interest and alignment (e.g., connect skills to a company value, mention excitement about a recent product launch or company direction). Avoid just listing facts.
         4.  **Conclusion:** Reiterate enthusiasm for the role and the company. Include a clear call to action (e.g., requesting an interview).
         5.  **Tone:** Professional, confident, and tailored.
 
