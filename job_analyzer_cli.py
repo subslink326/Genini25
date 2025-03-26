@@ -35,7 +35,7 @@ if x_title: extra_headers["X-Title"] = x_title
 # Use OpenRouter's naming. Examples:
 # model_name = "google/gemini-1.5-pro-latest" # Good for URL fetching, might be slower/costlier
 # model_name = "google/gemini-pro"             # Reliable text model
-model_name = "google/gemini-2.5-pro-exp-03-25" # <<< UPDATED MODEL
+model_name = "google/gemini-2.5-pro-exp-03-25:free" # <<< UPDATED MODEL
 # model_name = "openai/gpt-4o"                 # Alternative powerful model
 # model_name = "mistralai/mistral-large-latest" # Another alternative
 # Choose the one that best suits your needs and budget on OpenRouter.
